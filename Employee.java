@@ -1,160 +1,71 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-
-// Abstract base class
+// Employee class
 abstract class Employee {
-    protected int id;
-    protected String name;
-
-    public Employee(int id, String name) {
+    int id;
+    String name;
+    Employee(int id, String name) {
         this.id = id;
         this.name = name;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public abstract double calculateSalary();
-
-    public void displayDetails() {
-        System.out.println("Employee ID: " + id);
-        System.out.println("Name: " + name);
-        System.out.println("Salary: " + calculateSalary());
+    abstract double calculateSalary();
+    void display() {
+        System.out.println(id + "  " + name + "  Salary: " + calculateSalary());
     }
 }
-
-// Full-time employee class
+// Full Time Employee
 class FullTimeEmployee extends Employee {
-    private double monthlySalary;
-
-    public FullTimeEmployee(int id, String name, double monthlySalary) {
+    double salary;
+    FullTimeEmployee(int id, String name, double salary) {
         super(id, name);
-        this.monthlySalary = monthlySalary;
+        this.salary = salary;
     }
-
-    @Override
-    public double calculateSalary() {
-        return monthlySalary;
+    double calculateSalary() {
+        return salary;
     }
 }
-
-// Part-time employee class
+// Part Time Employee
 class PartTimeEmployee extends Employee {
-    private int hoursWorked;
-    private double hourlyRate;
-
-    public PartTimeEmployee(int id, String name, int hoursWorked, double hourlyRate) {
+    int hours;
+    double rate;
+    PartTimeEmployee(int id, String name, int hours, double rate) {
         super(id, name);
-        this.hoursWorked = hoursWorked;
-        this.hourlyRate = hourlyRate;
+        this.hours = hours;
+        this.rate = rate;
     }
-
-    @Override
-    public double calculateSalary() {
-        return hoursWorked * hourlyRate;
+    double calculateSalary() {
+        return hours * rate;
     }
 }
-
-// Payroll management system
-class PayrollSystem {
-    private ArrayList<Employee> employees = new ArrayList<>();
-
-    public void addEmployee(Employee emp) {
-        employees.add(emp);
-        System.out.println("Employee added successfully.");
+// Payroll class
+class Payroll {
+    ArrayList<Employee> list = new ArrayList<>();
+    void addEmployee(Employee e) {
+        list.add(e);
     }
-
-    public void removeEmployee(int id) {
-        Employee toRemove = null;
-
-        for (Employee emp : employees) {
-            if (emp.getId() == id) {
-                toRemove = emp;
+    void removeEmployee(int id) {
+        for (Employee e : list) {
+            if (e.id == id) {
+                list.remove(e);
                 break;
             }
         }
-
-        if (toRemove != null) {
-            employees.remove(toRemove);
-            System.out.println("Employee removed successfully.");
-        } else {
-            System.out.println("Employee not found.");
-        }
     }
-
-    public void displayEmployees() {
-        if (employees.isEmpty()) {
-            System.out.println("No employees to display.");
-            return;
-        }
-
-        for (Employee emp : employees) {
-            emp.displayDetails();
-            System.out.println("--------------------");
+    void displayEmployees() {
+        for (Employee e : list) {
+            e.display();
         }
     }
 }
-
 // Main class
-public class EmployeePayrollSystem {
+public class Main {
     public static void main(String[] args) {
-        PayrollSystem payroll = new PayrollSystem();
-        Scanner sc = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("\n1. Add Full-Time Employee");
-            System.out.println("2. Add Part-Time Employee");
-            System.out.println("3. Remove Employee");
-            System.out.println("4. Display Employees");
-            System.out.println("5. Exit");
-            System.out.print("Enter choice: ");
-
-            int choice = sc.nextInt();
-
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter ID: ");
-                    int ftId = sc.nextInt();
-                    sc.nextLine();
-                    System.out.print("Enter Name: ");
-                    String ftName = sc.nextLine();
-                    System.out.print("Enter Monthly Salary: ");
-                    double salary = sc.nextDouble();
-                    payroll.addEmployee(new FullTimeEmployee(ftId, ftName, salary));
-                    break;
-
-                case 2:
-                    System.out.print("Enter ID: ");
-                    int ptId = sc.nextInt();
-                    sc.nextLine();
-                    System.out.print("Enter Name: ");
-                    String ptName = sc.nextLine();
-                    System.out.print("Enter Hours Worked: ");
-                    int hours = sc.nextInt();
-                    System.out.print("Enter Hourly Rate: ");
-                    double rate = sc.nextDouble();
-                    payroll.addEmployee(new PartTimeEmployee(ptId, ptName, hours, rate));
-                    break;
-
-                case 3:
-                    System.out.print("Enter Employee ID to remove: ");
-                    int removeId = sc.nextInt();
-                    payroll.removeEmployee(removeId);
-                    break;
-
-                case 4:
-                    payroll.displayEmployees();
-                    break;
-
-                case 5:
-                    System.out.println("Exiting system...");
-                    sc.close();
-                    return;
-
-                default:
-                    System.out.println("Invalid choice.");
-            }
-        }
+        Payroll payroll = new Payroll();
+        payroll.addEmployee(new FullTimeEmployee(1, "Akanksha", 30000));
+        payroll.addEmployee(new PartTimeEmployee(2, "Kavya", 40, 200));
+        System.out.println("Employee Details:");
+        payroll.displayEmployees();
+        payroll.removeEmployee(1);
+        System.out.println("\nAfter Removing Employee ID 1:");
+        payroll.displayEmployees();
     }
 }
