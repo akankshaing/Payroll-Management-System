@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 // Abstract Employee class
-abstract class Employee {
+abstract class Employee { 
     private String name;
     private int id;
 
