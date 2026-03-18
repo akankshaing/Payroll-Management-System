@@ -10,7 +10,7 @@ abstract class Employee {
         this.id = id;  
     }
 
-    // Abstract method 
+    // Abstract method  
     public abstract double calculateSalary();
 
     // Getters
