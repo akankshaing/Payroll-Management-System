@@ -11,7 +11,7 @@ abstract class Employee {
     }
 
     // Abstract method  
-    public abstract double calculateSalary();
+    public abstract double calculateSalary(); 
 
     // Getters
     public String getName() {
